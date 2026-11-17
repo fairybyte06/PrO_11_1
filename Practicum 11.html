@@ -1,0 +1,975 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollabNest - Collaborate Together</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #eef4fb;
+    color: #26354a;
+}
+
+header {
+    background: #173b65;
+    color: white;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+header p {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 8px;
+}
+
+nav a:hover {
+    color: #a9d7ff;
+}
+
+.container {
+    width: 85%;
+    margin: 30px auto;
+}
+
+.welcome {
+    background: linear-gradient(120deg, #d6eaff, #edf5ff);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    color: #173b65;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    line-height: 1.6;
+}
+
+button {
+    background: #245789;
+    color: white;
+    padding: 11px 17px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+button:hover {
+    background: #173b65;
+}
+
+.section-title {
+    margin: 28px 0 15px;
+    color: #173b65;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card, .form-section {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #00000010;
+}
+
+.card h3 {
+    color: #245789;
+    margin-bottom: 12px;
+}
+
+.card p {
+    line-height: 1.5;
+}
+
+.form-section {
+    margin-top: 25px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #bdccdc;
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 2px solid #80b9ed;
+    border-color: #245789;
+}
+
+.task {
+    background: #f0f6fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.task.completed {
+    background: #e2f5e9;
+    opacity: 0.7;
+}
+
+.task.completed .task-name {
+    text-decoration: line-through;
+}
+
+.task-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.complete-btn {
+    background: #39865b;
+}
+
+.delete-btn {
+    background: #bd4545;
+}
+
+#clock {
+    margin-top: 12px;
+    font-weight: bold;
+    color: #173b65;
+}
+
+#notification {
+    display: none;
+    background: #d9f4e3;
+    color: #205b36;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+#result {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 8px;
+    display: none;
+}
+
+.success {
+    display: block !important;
+    background: #d9f4e3;
+    color: #205b36;
+}
+
+.error {
+    display: block !important;
+    background: #ffe1e1;
+    color: #a32929;
+}
+
+#feedbackMessage, #message {
+    margin-top: 12px;
+    color: #245789;
+    font-weight: bold;
+}
+
+footer {
+    background: #173b65;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+}
+
+@media(max-width: 900px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        width: 90%;
+    }
+}
+
+@media(max-width: 600px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .container {
+        width: 92%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>CollabNest</h1>
+        <p>Connect. Collaborate. Create.</p>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#registration">Register</a>
+        <a href="#tasks">Tasks</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+
+<div class="container">
+
+<!-- HOME -->
+
+<section class="welcome" id="home">
+
+    <h2 id="welcomeHeading">Welcome to CollabNest!</h2>
+
+    <p>
+        Your digital space for teamwork, communication
+        and collaboration. Share ideas, organize projects
+        and connect with your team.
+    </p>
+
+    <p id="clock"></p>
+
+    <button onclick="changeWelcome()">
+        Explore CollabNest
+    </button>
+
+    <p id="message"></p>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<h2 class="section-title" id="features">
+    Our Collaboration Features
+</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Communication</h3>
+        <p>Connect and exchange ideas with your teammates.</p>
+        <button onclick="showFeature('Communication')">
+            Learn More
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>File Sharing</h3>
+        <p>Share project documents and important resources.</p>
+        <button onclick="showFeature('File Sharing')">
+            Learn More
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>Task Management</h3>
+        <p>Organize activities and track project progress.</p>
+        <button onclick="showFeature('Task Management')">
+            Learn More
+        </button>
+    </div>
+
+</div>
+
+
+<!-- REGISTRATION FORM WITH VALIDATION -->
+
+<section class="form-section" id="registration">
+
+    <h2>Team Registration</h2>
+
+    <p>Register yourself and your team with CollabNest.</p>
+
+    <form id="registrationForm">
+
+        <label for="studentName">Full Name</label>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Enter your full name"
+            required
+            minlength="3"
+            maxlength="40"
+        >
+
+        <label for="studentEmail">Email Address</label>
+
+        <input
+            type="email"
+            id="studentEmail"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="phone">Phone Number</label>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter 10-digit phone number"
+            required
+            pattern="[0-9]{10}"
+            maxlength="10"
+            title="Enter exactly 10 digits"
+        >
+
+        <label for="teamName">Team Name</label>
+
+        <input
+            type="text"
+            id="teamName"
+            placeholder="Enter your team name"
+            required
+            minlength="2"
+        >
+
+        <label for="teamSize">Number of Team Members</label>
+
+        <input
+            type="number"
+            id="teamSize"
+            placeholder="Enter number of members"
+            required
+            min="1"
+            max="20"
+            step="1"
+        >
+
+        <label for="project">Project Description</label>
+
+        <textarea
+            id="project"
+            rows="4"
+            placeholder="Describe your project"
+            required
+            minlength="10"
+        ></textarea>
+
+        <button
+            type="button"
+            onclick="processForm()"
+        >
+            Submit Registration
+        </button>
+
+        <button type="reset" onclick="clearResult()">
+            Reset Form
+        </button>
+
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+
+</section>
+
+
+<!-- TASK MANAGER -->
+
+<section class="form-section" id="tasks">
+
+    <h2>Team Task Manager</h2>
+
+    <form id="taskForm">
+
+        <input
+            type="text"
+            id="taskName"
+            placeholder="Enter task name"
+            required
+        >
+
+        <textarea
+            id="taskDescription"
+            placeholder="Enter task description"
+            required
+        ></textarea>
+
+        <button type="submit">Add Task</button>
+
+    </form>
+
+    <p id="taskCount">Total Tasks: 0</p>
+
+    <div id="taskList">
+        <p id="emptyMessage">No tasks added yet.</p>
+    </div>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section class="form-section">
+
+    <h2> Notifications</h2>
+
+    <div id="notification">
+        Your activity has been updated!
+    </div>
+
+    <button onclick="showNotification()">
+        Show Notification
+    </button>
+
+    <button onclick="hideNotification()">
+        Hide Notification
+    </button>
+
+</section>
+
+
+<!-- REMINDER -->
+
+<section class="form-section">
+
+    <h2>Collaboration Reminder</h2>
+
+    <p id="timerMessage">No reminder scheduled.</p>
+
+    <button onclick="startReminder()">
+        Start Reminder
+    </button>
+
+    <button onclick="cancelReminder()">
+        Cancel Reminder
+    </button>
+
+</section>
+
+
+<!-- LIVE ACTIVITY -->
+
+<section class="form-section">
+
+    <h2>Live Activity</h2>
+
+    <p id="activity">CollabNest is ready!</p>
+
+    <button onclick="startActivity()">
+        Start Live Updates
+    </button>
+
+    <button onclick="stopActivity()">
+        Stop Live Updates
+    </button>
+
+</section>
+
+
+<!-- FEEDBACK -->
+
+<section class="form-section" id="contact">
+
+    <h2>Contact CollabNest</h2>
+
+    <p>Share your feedback with us!</p>
+
+    <form id="feedbackForm">
+
+        <input
+            type="text"
+            id="userName"
+            placeholder="Your Name"
+            required
+        >
+
+        <input
+            type="email"
+            id="userEmail"
+            placeholder="Your Email"
+            required
+        >
+
+        <textarea
+            id="feedback"
+            placeholder="Enter your feedback"
+            required
+        ></textarea>
+
+        <button type="submit">Submit Feedback</button>
+
+    </form>
+
+    <p id="feedbackMessage" aria-live="polite"></p>
+
+</section>
+
+</div>
+
+
+<footer>
+    <h3>CollabNest</h3>
+    <p>Connecting People. Building Ideas. Creating Together.</p>
+    <p>© 2026 CollabNest. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+
+// 1. LIVE CLOCK
+
+function updateClock() {
+
+    let now = new Date();
+
+    document.querySelector("#clock").textContent =
+        "Current Time: " + now.toLocaleTimeString();
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+
+// 2. WELCOME MESSAGE
+
+function changeWelcome() {
+
+    document.querySelector("#welcomeHeading").textContent =
+        "Let's Collaborate and Create Together!";
+
+    document.querySelector("#message").textContent =
+        "Welcome! Explore our features and start collaborating.";
+}
+
+
+// 3. FEATURE BUTTONS
+
+function showFeature(feature) {
+
+    document.querySelector("#message").textContent =
+        "You selected " + feature +
+        "! Start exploring CollabNest.";
+}
+
+
+// 4. REGISTRATION VALIDATION
+
+function processForm() {
+
+    // Get the form and input values
+
+    let form = document.querySelector("#registrationForm");
+
+    let name = document.querySelector("#studentName").value.trim();
+
+    let email = document.querySelector("#studentEmail").value.trim();
+
+    let phone = document.querySelector("#phone").value.trim();
+
+    let team = document.querySelector("#teamName").value.trim();
+
+    let size = document.querySelector("#teamSize").value;
+
+    let project = document.querySelector("#project").value.trim();
+
+    let result = document.querySelector("#result");
+
+
+    // Clear previous result
+
+    result.className = "";
+    result.style.display = "none";
+
+
+    // CHECK 1: EMPTY BOX VALIDATION
+
+    if (name === "" || email === "" ||
+        phone === "" || team === "" ||
+        size === "" || project === "") {
+
+        displayResult(
+            "Please fill in all the boxes!",
+            "error"
+        );
+
+    }
+
+    // CHECK 2: HTML5 VALIDATION
+
+    else if (!form.checkValidity()) {
+
+        form.reportValidity();
+
+        displayResult(
+            "Please enter valid details in all fields.",
+            "error"
+        );
+
+    }
+
+    // CHECK 3: ONLY NUMBERS VALIDATION
+
+    else if (!/^[0-9]{10}$/.test(phone)) {
+
+        displayResult(
+            "Phone number must contain exactly 10 digits!",
+            "error"
+        );
+
+    }
+
+    // CHECK 4: TEAM SIZE VALIDATION
+
+    else if (!/^[0-9]+$/.test(size) ||
+             Number(size) < 1 ||
+             Number(size) > 20) {
+
+        displayResult(
+            "Team size must be a whole number between 1 and 20.",
+            "error"
+        );
+
+    }
+
+    // CHECK 5: SUCCESS
+
+    else {
+
+        displayResult(
+            "Registration Successful! Welcome to CollabNest, " +
+            name + "! Your team " + team +
+            " has been registered with " + size +
+            " member(s).",
+            "success"
+        );
+
+        form.reset();
+
+    }
+
+}
+
+
+// 5. DISPLAY RESULT
+
+function displayResult(message, status) {
+
+    let result = document.querySelector("#result");
+
+    result.textContent = message;
+
+    result.className = status;
+
+    result.style.display = "block";
+
+}
+
+
+// 6. RESET REGISTRATION RESULT
+
+function clearResult() {
+
+    let result = document.querySelector("#result");
+
+    result.textContent = "";
+
+    result.className = "";
+
+    result.style.display = "none";
+
+}
+
+
+// 7. TASK MANAGER
+
+let totalTasks = 0;
+
+document.querySelector("#taskForm").addEventListener(
+    "submit", function(event) {
+
+        event.preventDefault();
+
+        let name = document.querySelector("#taskName").value.trim();
+
+        let description =
+            document.querySelector("#taskDescription").value.trim();
+
+        if (name === "" || description === "") {
+
+            alert("Please fill in both task fields!");
+
+        }
+
+        else {
+
+            let task = document.createElement("div");
+
+            task.className = "task";
+
+            let info = document.createElement("div");
+
+            let title = document.createElement("h3");
+
+            title.className = "task-name";
+
+            title.textContent = name;
+
+            let desc = document.createElement("p");
+
+            desc.textContent = description;
+
+            info.appendChild(title);
+            info.appendChild(desc);
+
+            let actions = document.createElement("div");
+
+            actions.className = "task-actions";
+
+            let complete = document.createElement("button");
+
+            complete.className = "complete-btn";
+
+            complete.textContent = "Complete";
+
+            complete.onclick = function() {
+
+                task.classList.toggle("completed");
+
+                complete.textContent =
+                    task.classList.contains("completed")
+                    ? "Completed" : "Complete";
+
+            };
+
+            let del = document.createElement("button");
+
+            del.className = "delete-btn";
+
+            del.textContent = "Delete";
+
+            del.onclick = function() {
+
+                task.remove();
+
+                totalTasks--;
+
+                updateTaskCount();
+
+                if (totalTasks === 0) {
+
+                    document.querySelector("#taskList").innerHTML =
+                        '<p id="emptyMessage">No tasks added yet.</p>';
+
+                }
+
+            };
+
+            actions.appendChild(complete);
+            actions.appendChild(del);
+
+            task.appendChild(info);
+            task.appendChild(actions);
+
+            let empty = document.querySelector("#emptyMessage");
+
+            if (empty) {
+                empty.remove();
+            }
+
+            document.querySelector("#taskList").appendChild(task);
+
+            totalTasks++;
+
+            updateTaskCount();
+
+            document.querySelector("#taskForm").reset();
+
+            showNotification();
+
+        }
+
+    }
+);
+
+
+// 8. UPDATE TASK COUNT
+
+function updateTaskCount() {
+
+    document.querySelector("#taskCount").textContent =
+        "Total Tasks: " + totalTasks;
+
+}
+
+
+// 9. NOTIFICATION
+
+function showNotification() {
+
+    let box = document.querySelector("#notification");
+
+    box.style.display = "block";
+
+    box.textContent = "Your CollabNest activity has been updated!";
+
+}
+
+function hideNotification() {
+
+    document.querySelector("#notification").style.display = "none";
+
+}
+
+
+// 10. SETTIMEOUT AND CLEARTIMEOUT
+
+let reminder;
+
+function startReminder() {
+
+    clearTimeout(reminder);
+
+    document.querySelector("#timerMessage").textContent =
+        "Reminder scheduled for 5 seconds!";
+
+    reminder = setTimeout(function() {
+
+        document.querySelector("#timerMessage").textContent =
+            "Reminder! Check your team's pending tasks.";
+
+    }, 5000);
+
+}
+
+function cancelReminder() {
+
+    clearTimeout(reminder);
+
+    document.querySelector("#timerMessage").textContent =
+        "Reminder cancelled!";
+
+}
+
+
+// 11. SETINTERVAL AND CLEARINTERVAL
+
+let activityInterval = null;
+
+let activityNumber = 0;
+
+function startActivity() {
+
+    if (activityInterval !== null) {
+
+        return;
+
+    }
+
+    document.querySelector("#activity").textContent =
+        "Live updates started!";
+
+    activityInterval = setInterval(function() {
+
+        activityNumber++;
+
+        document.querySelector("#activity").textContent =
+            "Live Activity Update: " + activityNumber;
+
+    }, 2000);
+
+}
+
+function stopActivity() {
+
+    clearInterval(activityInterval);
+
+    activityInterval = null;
+
+    document.querySelector("#activity").textContent =
+        "Live updates stopped.";
+
+}
+
+
+// 12. FEEDBACK FORM
+
+document.querySelector("#feedbackForm").addEventListener(
+    "submit", function(event) {
+
+        event.preventDefault();
+
+        let name =
+            document.querySelector("#userName").value.trim();
+
+        let email =
+            document.querySelector("#userEmail").value.trim();
+
+        let feedback =
+            document.querySelector("#feedback").value.trim();
+
+        if (name === "" || email === "" || feedback === "") {
+
+            document.querySelector("#feedbackMessage").textContent =
+                "Please complete all fields.";
+
+        }
+
+        else if (!document.querySelector("#feedbackForm").checkValidity()) {
+
+            document.querySelector("#feedbackForm").reportValidity();
+
+        }
+
+        else {
+
+            document.querySelector("#feedbackMessage").textContent =
+                "Thank you, " + name +
+                "! Your feedback has been recorded in this demo.";
+
+            document.querySelector("#feedbackForm").reset();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
